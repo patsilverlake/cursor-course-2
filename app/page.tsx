@@ -1,8 +1,24 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
+import { useState } from "react";
 export default function Home() {
+  // add a button that when clicked alerts "you clicked me"
+  const handleClick = () => {
+    alert("you clicked me");
+  };
+
+  // we need to add a 2nd button that increments a counter
+  const [counter, setCounter] = useState(0);
+  const handleIncrement = () => {
+    setCounter(counter + 1);
+  };
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <div className="flex flex-col gap-4">
+        <h2>Counter: {counter}</h2>
+      </div>
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <Image
           className="dark:invert"
@@ -12,16 +28,31 @@ export default function Home() {
           height={38}
           priority
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <h1 className="text-4xl font-bold">Hello World</h1>
+        <p className="text-lg">This is a template for a web app.</p>
+        <div className="flex flex-col gap-4">
+          <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+            <li className="mb-2">
+              Get started by editing <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">app/page.tsx</code>.
+            </li>
+            <li>Save and see your changes instantly.</li>
+          </ol>
+        </div>
+
+        {/* NOTE TO TEAM: we need to style this better */}
+        <button
+          className="bg-blue-500 text-white p-2 rounded"
+          onClick={handleClick}
+        >
+          Click me
+        </button>
+
+        <button
+          className="bg-blue-500 text-white p-2 rounded"
+          onClick={handleIncrement}
+        >
+          Increment
+        </button>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
