@@ -22,6 +22,11 @@ const formSchema = z.object({
   attachments: z.any().optional()
 });
 
+/**
+ * Feature request form page that allows users to submit product suggestions.
+ * Includes form validation, file attachments, and character limits.
+ * Uses react-hook-form and zod for form handling and validation.
+ */
 export default function FeatureRequestPage() {
   const [limitAlert, setLimitAlert] = useState<string | null>(null);
 

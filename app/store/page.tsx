@@ -57,6 +57,11 @@ const products: Product[] = [
   }
 ];
 
+/**
+ * Store page component that displays a grid of slime products with a simple cart.
+ * Allows users to browse products and add them to their shopping cart.
+ * Currently uses client-side state management for the cart functionality.
+ */
 export default function Store() {
   const [cart, setCart] = useState<Product[]>([]);
 
