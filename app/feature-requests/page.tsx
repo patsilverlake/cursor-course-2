@@ -6,33 +6,20 @@ import * as z from "zod";
 
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, LightbulbIcon, Send, Upload } from "lucide-react";
 import { useState } from "react";
 
 const formSchema = z.object({
-  title: z
-    .string()
-    .min(2, {
-      message: "Title must be at least 2 characters."
-    })
-    .max(25, {
-      message: "Title cannot exceed 25 characters."
-    }),
-  description: z
-    .string()
-    .min(10, {
-      message: "Description must be at least 10 characters."
-    })
-    .max(500, {
-      message: "Description cannot exceed 500 characters."
-    }),
-  type: z.string().min(1, {
-    message: "Feature type is required."
-  })
+  title: z.string().min(2, "Title must be at least 2 characters."),
+  description: z.string().min(10, "Description must be at least 10 characters."),
+  priority: z.string().min(1, "Please select a priority"),
+  additionalDetails: z.string().optional(),
+  email: z.string().email("Please enter a valid email address"),
+  attachments: z.any().optional()
 });
 
 export default function FeatureRequestPage() {
@@ -42,7 +29,11 @@ export default function FeatureRequestPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-      description: ""
+      description: "",
+      priority: "",
+      additionalDetails: "",
+      email: "",
+      attachments: undefined
     }
   });
 
@@ -60,11 +51,14 @@ export default function FeatureRequestPage() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center px-4">
-      <div className="w-full max-w-xl">
-        <div className="mb-8">
-          <h1 className="text-5xl font-bold">Feature Request</h1>
-          <p className="text-xl text-muted-foreground">Submit your feature requests and feedback</p>
+    <div className="w-full min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-xl bg-white rounded-lg shadow-lg p-8">
+        <div className="mb-8 text-center">
+          <div className="flex justify-center mb-2">
+            <LightbulbIcon className="h-8 w-8 text-yellow-500" />
+          </div>
+          <h1 className="text-2xl font-semibold mb-2">Feature Request</h1>
+          <p className="text-gray-600">Have an idea to improve our product? We&apos;d love to hear it!</p>
         </div>
 
         {limitAlert && (
@@ -80,26 +74,24 @@ export default function FeatureRequestPage() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8"
+            className="space-y-6"
           >
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>Feature Title</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Brief title for your request"
-                      maxLength={25}
+                      placeholder="Enter a concise title for your feature"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        handleInputChange("title", e.target.value, 25);
+                        handleInputChange("title", e.target.value, 100);
                       }}
                     />
                   </FormControl>
-                  <FormDescription>A short, descriptive title for your feature request (max 25 characters)</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -110,12 +102,11 @@ export default function FeatureRequestPage() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Brief Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Describe your feature request in detail"
-                      className="min-h-[150px]"
-                      maxLength={500}
+                      placeholder="Provide a short description of the feature"
+                      className="min-h-[100px]"
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -123,7 +114,6 @@ export default function FeatureRequestPage() {
                       }}
                     />
                   </FormControl>
-                  <FormDescription>Please provide as much detail as possible (max 500 characters)</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -131,32 +121,110 @@ export default function FeatureRequestPage() {
 
             <FormField
               control={form.control}
-              name="type"
+              name="priority"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Feature Type</FormLabel>
+                  <FormLabel>Priority</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a feature type" />
+                        <SelectValue placeholder="Select priority" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="enhancement">Enhancement</SelectItem>
-                      <SelectItem value="new-feature">New Feature</SelectItem>
-                      <SelectItem value="bug-fix">Bug Fix</SelectItem>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
                     </SelectContent>
                   </Select>
-                  <FormDescription>Select the type of feature request</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button type="submit">Submit Request</Button>
+            <FormField
+              control={form.control}
+              name="additionalDetails"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Additional Details</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Provide any additional context or use cases"
+                      className="min-h-[100px]"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleInputChange("additionalDetails", e.target.value, 1000);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your email address"
+                      type="email"
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleInputChange("email", e.target.value, 50);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="attachments"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Attachments (optional)</FormLabel>
+                  <FormControl>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => document.getElementById("file-upload")?.click()}
+                      >
+                        <Upload className="h-4 w-4 mr-2" />
+                        Upload File
+                      </Button>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => field.onChange(e.target.files)}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="submit"
+              className="w-full"
+            >
+              <Send className="h-4 w-4 mr-2" />
+              Submit Feature Request
+            </Button>
           </form>
         </Form>
       </div>
