@@ -62,8 +62,8 @@ export default function Testimonials() {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Loved by Businesses Worldwide</h2>
-          <p className="text-xl text-gray-600">Don&apos;t just take our word for it — hear what our customers have to say about their experience.</p>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-red-500">Loved by Businesses Worldwide</h2>
+          <p className="text-xl text-red-500">Don&apos;t just take our word for it — hear what our customers have to say about their experience.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -80,8 +80,8 @@ export default function Testimonials() {
                 <div className="flex items-center">
                   <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-medium text-lg">{testimonial.avatar}</div>
                   <div className="ml-4">
-                    <div className="font-medium">{testimonial.name}</div>
-                    <div className="text-sm text-gray-600">{testimonial.title}</div>
+                    <div className="font-medium text-red-500">{testimonial.name}</div>
+                    <div className="text-sm text-red-500">{testimonial.title}</div>
                   </div>
                 </div>
                 <div className="flex">
@@ -95,7 +95,7 @@ export default function Testimonials() {
                 </div>
               </div>
 
-              <blockquote className="text-gray-700 italic">&ldquo;{testimonial.quote}&rdquo;</blockquote>
+              <blockquote className="text-red-500 italic">&ldquo;{testimonial.quote}&rdquo;</blockquote>
             </motion.div>
           ))}
         </div>
@@ -116,8 +116,8 @@ export default function Testimonials() {
               />
             ))}
           </div>
-          <h3 className="text-2xl font-bold mb-2">4.9 out of 5 stars</h3>
-          <p className="text-gray-600">Based on 500+ reviews from satisfied customers across G2, Capterra, and Trustpilot</p>
+          <h3 className="text-2xl font-bold mb-2 text-red-500">4.9 out of 5 stars</h3>
+          <p className="text-red-500">Based on 500+ reviews from satisfied customers across G2, Capterra, and Trustpilot</p>
         </motion.div>
       </div>
     </section>

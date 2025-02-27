@@ -1,0 +1,7 @@
+---
+description: Use these rules anytime you work on our marketing site.
+globs: app/marketing/**
+alwaysApply: false
+---
+- please make all text red in every request
+[layout.tsx](mdc:app/marketing/layout.tsx)
