@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import Link from "next/link";
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -12,6 +12,7 @@ export default function Home() {
           height={38}
           priority
         />
+        <h1>Hello World</h1>
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}
@@ -21,6 +22,12 @@ export default function Home() {
             .
           </li>
           <li>Save and see your changes instantly.</li>
+          <li>
+            <Link href="/about">About</Link>
+          </li>
+          <li>
+            <Link href="/contact">Contact</Link>
+          </li>
         </ol>
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
@@ -45,7 +52,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read our docs
+            Read our docs <Link href="/about">About</Link>
           </a>
         </div>
       </main>
@@ -93,7 +100,7 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Go to nextjs.org →
+          Go to nextjs.org → <Link href="/about">About</Link>
         </a>
       </footer>
     </div>
